@@ -3,7 +3,13 @@ import {
     useState
 } from "react";
 
-import {io} from "socket.io-client";
+import {
+    useParams
+} from "react-router-dom";
+
+import {
+    io
+} from "socket.io-client";
 
 
 const socket = io(
@@ -14,10 +20,83 @@ const socket = io(
 
 function Chat(){
 
+    const { id } = useParams();
+
 
     const [message,setMessage] = useState("");
+
     const [messages,setMessages] = useState([]);
+
     const [online,setOnline] = useState(0);
+
+
+
+    useEffect(()=>{
+
+
+        // join matched chat room
+
+        socket.emit(
+            "join-room",
+            id
+        );
+
+
+
+        // receive messages
+
+        socket.on(
+            "receive-message",
+            (data)=>{
+
+
+                setMessages(
+                    prev=>[
+                        ...prev,
+                        data
+                    ]
+                );
+
+
+            }
+        );
+
+
+
+        // online users
+
+        socket.on(
+            "online_users",
+            (count)=>{
+
+
+                setOnline(count);
+
+
+            }
+        );
+
+
+
+        return()=>{
+
+
+            socket.off(
+                "receive-message"
+            );
+
+
+            socket.off(
+                "online_users"
+            );
+
+
+        };
+
+
+    },[id]);
+
+
 
 
 
@@ -28,12 +107,18 @@ function Chat(){
             return;
 
 
+
         socket.emit(
-            "send_message",
+            "send-message",
             {
+
+                room:id,
+
                 text:message
+
             }
         );
+
 
 
         setMessage("");
@@ -41,50 +126,6 @@ function Chat(){
     };
 
 
-
-    useEffect(()=>{
-
-
-        socket.on(
-            "receive_message",
-            (data)=>{
-
-                setMessages(
-                    prev=>[
-                        ...prev,
-                        data
-                    ]
-                );
-
-            }
-        );
-
-
-        socket.on(
-            "online_users",
-            (count)=>{
-
-                setOnline(count);
-
-            }
-        );
-
-
-
-        return()=>{
-
-            socket.off(
-                "receive_message"
-            );
-
-            socket.off(
-                "online_users"
-            );
-
-        }
-
-
-    },[]);
 
 
 
@@ -98,10 +139,14 @@ function Chat(){
             </h2>
 
 
+
             <h4>
                 {online} Online
             </h4>
 
+
+
+            <div>
 
 
             {
@@ -109,7 +154,9 @@ function Chat(){
                     (msg,index)=>(
 
                         <p key={index}>
+
                             {msg.text}
+
                         </p>
 
                     )
@@ -117,29 +164,46 @@ function Chat(){
             }
 
 
+            </div>
+
+
+
 
             <input
+
                 value={message}
+
                 onChange={
-                    e=>setMessage(
+                    e=>
+                    setMessage(
                         e.target.value
                     )
                 }
+
+
+                placeholder="Type message..."
+
             />
+
 
 
             <button
                 onClick={sendMessage}
             >
+
                 Send
+
             </button>
+
 
 
         </div>
 
+
     );
 
 }
+
 
 
 export default Chat;

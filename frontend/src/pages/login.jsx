@@ -1,114 +1,127 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../services/api";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import "./Auth.css";
 
-function Login() {
 
-    const navigate = useNavigate();
+function Login(){
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+const navigate=useNavigate();
 
-    const handleLogin = async (e) => {
 
-        e.preventDefault();
+const [form,setForm]=useState({
 
-        try {
+email:"",
+password:""
 
-            const res = await api.post(
-                "/auth/login",
-                {
-                    email,
-                    password
-                }
-            );
+});
 
-            // Save JWT
-            localStorage.setItem(
-                "token",
-                res.data.token
-            );
 
-            // Save User
-            localStorage.setItem(
-                "user",
-                JSON.stringify(res.data.user)
-            );
+const handleChange=(e)=>{
 
-            alert("Login Successful");
+setForm({
 
-            // Redirect to Profile Page
-            navigate("/profile");
+...form,
 
-        } catch (err) {
+[e.target.name]:e.target.value
 
-            console.log(
-                err.response?.data || err.message
-            );
-
-            alert(
-                err.response?.data?.message ||
-                "Login Failed"
-            );
-
-        }
-
-    };
-
-    return (
-
-        <div>
-
-            <h1>Login</h1>
-
-            <form onSubmit={handleLogin}>
-
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) =>
-                        setEmail(e.target.value)
-                    }
-                    required
-                />
-
-                <br />
-                <br />
-
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) =>
-                        setPassword(e.target.value)
-                    }
-                    required
-                />
-
-                <br />
-                <br />
-
-                <button type="submit">
-                    Login
-                </button>
-
-            </form>
-
-            <br />
-
-            <button
-                onClick={() =>
-                    navigate("/signup")
-                }
-            >
-                Create New Account
-            </button>
-
-        </div>
-
-    );
+})
 
 }
+
+
+
+const login=()=>{
+
+console.log(form);
+
+// API call later
+
+navigate("/chat");
+
+}
+
+
+
+return(
+
+<div className="auth-page">
+
+
+<div className="auth-card">
+
+
+<h1>
+Welcome Back
+</h1>
+
+
+<p className="subtitle">
+Login to your college community
+</p>
+
+
+
+<input
+
+name="email"
+
+type="email"
+
+placeholder="College Email"
+
+onChange={handleChange}
+
+/>
+
+
+
+<input
+
+name="password"
+
+type="password"
+
+placeholder="Password"
+
+onChange={handleChange}
+
+/>
+
+
+
+<button onClick={login}>
+Login
+</button>
+
+
+<p className="subtitle">
+
+Don't have account?
+
+<span 
+style={{
+color:"#60a5fa",
+cursor:"pointer"
+}}
+
+onClick={()=>navigate("/signup")}
+
+>
+Signup
+</span>
+
+</p>
+
+
+
+</div>
+
+
+</div>
+
+)
+
+}
+
 
 export default Login;

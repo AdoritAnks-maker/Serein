@@ -1,0 +1,588 @@
+/* ================================
+   GLOBAL AUTH PAGE
+================================ */
+
+
+.auth-page{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+
+    background:
+
+    radial-gradient(
+        circle at top,
+        #2a2a2a 0%,
+        transparent 35%
+    ),
+
+    linear-gradient(
+        135deg,
+        #050505,
+        #0b0b0b,
+        #151515
+    );
+
+
+    font-family:
+
+    "Inter",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+
+    color:white;
+
+}
+
+
+
+/* ================================
+        CARD
+================================ */
+
+
+.auth-card{
+
+
+    width:420px;
+
+
+    padding:45px;
+
+
+    border-radius:28px;
+
+
+    background:
+
+    rgba(255,255,255,0.06);
+
+
+
+    backdrop-filter:
+
+    blur(25px);
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,0.12);
+
+
+
+    box-shadow:
+
+
+    0 30px 80px rgba(0,0,0,0.85);
+
+
+
+    animation:
+
+    fadeIn 0.5s ease;
+
+
+
+}
+
+
+
+
+/* CARD ANIMATION */
+
+
+@keyframes fadeIn{
+
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+
+}
+
+
+
+
+/* ================================
+          HEADING
+================================ */
+
+
+
+.auth-card h1{
+
+
+    text-align:center;
+
+
+    font-size:34px;
+
+
+    font-weight:700;
+
+
+    letter-spacing:-1px;
+
+
+    margin-bottom:12px;
+
+
+
+    background:
+
+    linear-gradient(
+        90deg,
+        #ffffff,
+        #a1a1aa
+    );
+
+
+    -webkit-background-clip:text;
+
+
+    color:transparent;
+
+
+
+}
+
+
+
+/* ================================
+          SUBTITLE
+================================ */
+
+
+.subtitle{
+
+
+    text-align:center;
+
+
+    color:#888888;
+
+
+    font-size:15px;
+
+
+    margin-bottom:32px;
+
+
+    letter-spacing:0.3px;
+
+
+}
+
+
+
+
+/* ================================
+          INPUTS
+================================ */
+
+
+
+.auth-card input,
+.auth-card textarea,
+.auth-card select{
+
+
+    width:100%;
+
+
+    padding:16px;
+
+
+    margin-bottom:18px;
+
+
+
+    background:
+
+
+    rgba(255,255,255,0.07);
+
+
+
+    border:
+
+
+    1px solid rgba(255,255,255,0.12);
+
+
+
+    border-radius:16px;
+
+
+
+    color:white;
+
+
+
+    outline:none;
+
+
+
+    font-size:15px;
+
+
+
+    transition:
+
+    0.3s ease;
+
+
+
+}
+
+
+
+.auth-card input::placeholder,
+.auth-card textarea::placeholder{
+
+
+    color:#777;
+
+
+}
+
+
+
+
+.auth-card input:focus,
+.auth-card textarea:focus{
+
+
+    border-color:#aaaaaa;
+
+
+    background:
+
+    rgba(255,255,255,0.1);
+
+
+
+    transform:
+
+    translateY(-2px);
+
+
+
+}
+
+
+
+
+.auth-card textarea{
+
+
+    height:110px;
+
+
+    resize:none;
+
+
+}
+
+
+
+
+/* ================================
+          BUTTON
+================================ */
+
+
+
+.auth-card button{
+
+
+    width:100%;
+
+
+
+    padding:16px;
+
+
+
+    margin-top:5px;
+
+
+
+    border:none;
+
+
+
+    border-radius:16px;
+
+
+
+    cursor:pointer;
+
+
+
+    font-size:16px;
+
+
+
+    font-weight:600;
+
+
+
+    color:#000;
+
+
+
+    background:
+
+
+    linear-gradient(
+
+    135deg,
+
+    #ffffff,
+
+    #bdbdbd
+
+    );
+
+
+
+    transition:
+
+    0.3s ease;
+
+
+
+}
+
+
+
+
+
+.auth-card button:hover{
+
+
+    transform:
+
+    translateY(-3px);
+
+
+
+    box-shadow:
+
+
+    0 15px 35px rgba(255,255,255,0.15);
+
+
+
+}
+
+
+
+/* ================================
+          LINKS
+================================ */
+
+
+.auth-link{
+
+
+    margin-top:25px;
+
+
+    text-align:center;
+
+
+    color:#888;
+
+
+
+    font-size:14px;
+
+
+
+}
+
+
+
+.auth-link span{
+
+
+    color:#ffffff;
+
+
+    margin-left:6px;
+
+
+    cursor:pointer;
+
+
+    font-weight:600;
+
+
+
+}
+
+
+
+
+.auth-link span:hover{
+
+
+    text-decoration:underline;
+
+
+}
+
+
+
+
+
+/* ================================
+          OPTIONS
+================================ */
+
+
+.option-box{
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:15px;
+
+
+}
+
+
+
+
+.option{
+
+
+    padding:18px;
+
+
+
+    border-radius:18px;
+
+
+
+    background:
+
+
+    rgba(255,255,255,0.07);
+
+
+
+    border:
+
+
+    1px solid rgba(255,255,255,0.12);
+
+
+
+    color:white;
+
+
+
+    text-align:center;
+
+
+
+    cursor:pointer;
+
+
+
+    transition:
+
+    0.3s ease;
+
+
+
+}
+
+
+
+
+
+.option:hover{
+
+
+    background:
+
+
+    rgba(255,255,255,0.15);
+
+
+
+    transform:
+
+    translateY(-4px);
+
+
+
+    border-color:#777;
+
+
+
+}
+
+
+
+/* ================================
+          RESPONSIVE
+================================ */
+
+
+@media(max-width:500px){
+
+
+.auth-card{
+
+
+width:90%;
+
+
+padding:30px;
+
+
+}
+
+
+.auth-card h1{
+
+
+font-size:28px;
+
+
+}
+
+
+}

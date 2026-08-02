@@ -1,100 +1,88 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
-  {
-    username: {
-      type: String,
-      required: true,
-      trim: true,
+
+const userSchema = new mongoose.Schema({
+
+
+    username:{
+
+        type:String,
+
+        required:true
+
     },
 
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      trim: true,
+
+    email:{
+
+        type:String,
+
+        required:true,
+
+        unique:true
+
     },
 
-    password: {
-      type: String,
-      required: true,
+
+    password:{
+
+        type:String,
+
+        required:true
+
     },
 
-    gender: {
-      type: String,
-      enum: ["Male", "Female", "Other"],
-      required: true,
+
+    bio:{
+
+        type:String,
+
+        default:""
+
     },
 
-    lookingFor: {
-      type: String,
-      enum: ["Male", "Female", "Anyone"],
-      required: true,
+
+    gender:{
+
+        type:String,
+
+        default:""
+
     },
 
-    bio: {
-      type: String,
-      default: "",
-      maxlength: 250,
+
+    lookingFor:{
+
+        type:String,
+
+        default:""
+
     },
 
-    vibes: [
-      {
-        type: String,
-        enum: [
-          "Coffee",
-          "Romance",
-          "Trekking",
-          "Travel",
-          "Movies",
-          "Music",
-          "Fitness",
-          "Reading",
-          "Photography",
-          "Foodie",
-          "Gaming",
-          "Tech",
-          "Startups",
-          "Coding",
-          "Study",
-          "Cricket",
-          "Football",
-          "Anime",
-          "Pets",
-          "Nature",
-        ],
-      },
-    ],
 
-    isOnline: {
-      type: Boolean,
-      default: false,
+    vibe:{
+
+        type:String,
+
+        default:""
+
     },
 
-    location: {
-      type: {
-        type: String,
-        enum: ["Point"],
-        default: "Point",
-      },
 
-      coordinates: {
-        type: [Number],
-        default: [0, 0],
-      },
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
+    createdAt:{
 
-userSchema.index({
-  location: "2dsphere",
+        type:Date,
+
+        default:Date.now
+
+    }
+
+
 });
 
+
+
 module.exports = mongoose.model(
-  "User",
-  userSchema
+    "User",
+    userSchema
 );

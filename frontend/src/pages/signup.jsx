@@ -1,152 +1,194 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import api from "../services/api";
+import "./Auth.css";
 
 
 function Signup(){
 
-    const navigate = useNavigate();
+
+const navigate=useNavigate();
 
 
-    const [username,setUsername] = useState("");
-    const [email,setEmail] = useState("");
-    const [password,setPassword] = useState("");
-    const [gender,setGender] = useState("");
-    const [lookingFor,setLookingFor] = useState("");
-    const [bio,setBio] = useState("");
-    const [vibes,setVibes] = useState([]);
+const [form,setForm]=useState({
+
+username:"",
+email:"",
+password:"",
+bio:""
+
+});
+
+
+const [loading,setLoading]=useState(false);
 
 
 
-    const handleSignup = async(e)=>{
+const handleChange=(e)=>{
 
-        e.preventDefault();
+setForm({
 
+...form,
 
-        try{
+[e.target.name]:e.target.value
 
-            const res = await api.post(
-                "/auth/register",
-                {
-                    username,
-                    email,
-                    password,
-                    gender,
-                    lookingFor,
-                    bio,
-                    vibes
-                }
-            );
+});
+
+};
 
 
-            alert(
-                "Signup Successful"
-            );
+
+const submit=async()=>{
 
 
-            navigate("/login");
+try{
+
+setLoading(true);
 
 
-        }
-        catch(err){
-
-            console.log(
-                err.response?.data
-            );
-
-            alert(
-                err.response?.data?.message ||
-                "Signup Failed"
-            );
-
-        }
-
-    };
+const res=await api.post(
+"/auth/signup",
+form
+);
 
 
-    return(
-
-        <div>
-
-            <h1>
-                Create Account
-            </h1>
+console.log(res.data);
 
 
-            <form onSubmit={handleSignup}>
+// next step
+
+navigate("/gender");
 
 
-                <input
-                    placeholder="Username"
-                    onChange={
-                        e=>setUsername(e.target.value)
-                    }
-                />
+}
+
+catch(err){
+
+console.log(err);
+
+}
+
+finally{
+
+setLoading(false);
+
+}
 
 
-                <input
-                    placeholder="Email"
-                    onChange={
-                        e=>setEmail(e.target.value)
-                    }
-                />
+};
 
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    onChange={
-                        e=>setPassword(e.target.value)
-                    }
-                />
+
+return(
+
+<div className="auth-page">
 
 
-                <input
-                    placeholder="Gender (Male/Female/Other)"
-                    onChange={
-                        e=>setGender(e.target.value)
-                    }
-                />
+<div className="auth-card">
 
 
-                <input
-                    placeholder="Looking For"
-                    onChange={
-                        e=>setLookingFor(e.target.value)
-                    }
-                />
+<h1>
+Create Account
+</h1>
 
 
-                <textarea
-                    placeholder="Bio"
-                    onChange={
-                        e=>setBio(e.target.value)
-                    }
-                />
+<p className="subtitle">
+Join your college vibe community
+</p>
 
 
-                <input
-                    placeholder="Vibes: Coding,Music,Tech"
-                    onChange={
-                        e=>
-                        setVibes(
-                            e.target.value.split(",")
-                        )
-                    }
-                />
+
+<input
+
+name="username"
+
+placeholder="Username"
+
+onChange={handleChange}
+
+/>
 
 
-                <button>
-                    Signup
-                </button>
+
+<input
+
+name="email"
+
+placeholder="College Email"
+
+type="email"
+
+onChange={handleChange}
+
+/>
 
 
-            </form>
+
+<input
+
+name="password"
+
+placeholder="Password"
+
+type="password"
+
+onChange={handleChange}
+
+/>
 
 
-        </div>
 
-    );
+<textarea
+
+name="bio"
+
+placeholder="Tell something about yourself..."
+
+onChange={handleChange}
+
+/>
+
+
+
+<button onClick={submit}>
+
+{
+loading?
+"Creating..."
+:
+"Create Account"
+}
+
+</button>
+
+
+
+<div className="auth-link">
+
+
+Already have an account?
+
+
+<span
+onClick={()=>navigate("/login")}
+>
+
+Login
+
+</span>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+)
 
 }
 

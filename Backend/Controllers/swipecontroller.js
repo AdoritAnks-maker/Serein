@@ -1,6 +1,6 @@
 const Swipe = require("../models/Swipe");
-const Match = require("../models/Match");
-const Conversation = require("../models/Conversation");
+const Match = require("../models/MatchRequest");
+const Conversation = require("../models/");
 
 
 const swipeUser = async (req, res) => {
