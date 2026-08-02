@@ -1,9 +1,7 @@
 const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
 
-// ======================================
-// CREATE A NEW CONVERSATION
-// ======================================
+
 
 const createConversation = async (req, res) => {
   try {
@@ -16,7 +14,6 @@ const createConversation = async (req, res) => {
       });
     }
 
-    // Check if conversation already exists
     let conversation = await Conversation.findOne({
       participants: {
         $all: [senderId, receiverId],
@@ -30,7 +27,6 @@ const createConversation = async (req, res) => {
       });
     }
 
-    // Create new conversation
     conversation = await Conversation.create({
       participants: [senderId, receiverId],
     });
@@ -48,10 +44,6 @@ const createConversation = async (req, res) => {
 
   }
 };
-
-// ======================================
-// GET ALL CONVERSATIONS OF LOGGED-IN USER
-// ======================================
 
 const getConversations = async (req, res) => {
 
@@ -83,9 +75,6 @@ const getConversations = async (req, res) => {
 
 };
 
-// ======================================
-// GET SINGLE CONVERSATION
-// ======================================
 
 const getConversationById = async (req, res) => {
 
@@ -120,9 +109,6 @@ const getConversationById = async (req, res) => {
 
 };
 
-// ======================================
-// DELETE CONVERSATION
-// ======================================
 
 const deleteConversation = async (req, res) => {
 
@@ -141,7 +127,6 @@ const deleteConversation = async (req, res) => {
 
     }
 
-    // Delete all messages of that conversation
     await Message.deleteMany({
       conversation: req.params.id,
     });

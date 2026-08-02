@@ -1,8 +1,5 @@
 const Match = require("../models/Match");
 
-// ======================================
-// GET ALL MATCHES OF LOGGED-IN USER
-// ======================================
 
 const getMatches = async (req, res) => {
   try {
@@ -31,9 +28,6 @@ const getMatches = async (req, res) => {
   }
 };
 
-// ======================================
-// GET SINGLE MATCH
-// ======================================
 
 const getMatchById = async (req, res) => {
 
@@ -68,9 +62,6 @@ const getMatchById = async (req, res) => {
 
 };
 
-// ======================================
-// DELETE MATCH
-// ======================================
 
 const deleteMatch = async (req, res) => {
 

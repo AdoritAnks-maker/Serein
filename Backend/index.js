@@ -11,9 +11,6 @@ const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
 
-// ==============================
-// Import Routes
-// ==============================
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -118,7 +115,7 @@ io.on("connection", (socket) => {
 
 app.get("/", (req, res) => {
 
-    res.send("Backend Running Successfully 🚀");
+    res.send("Backend Running Successfully ");
 
 });
 

@@ -1,9 +1,6 @@
 const Message = require("../models/Message");
 const Conversation = require("../models/Conversation");
 
-// ======================================
-// SEND MESSAGE
-// ======================================
 
 const sendMessage = async (req, res) => {
 
@@ -71,11 +68,6 @@ const sendMessage = async (req, res) => {
 
 };
 
-
-// ======================================
-// GET ALL MESSAGES OF A CONVERSATION
-// ======================================
-
 const getMessages = async (req, res) => {
 
     try {
@@ -118,10 +110,6 @@ const getMessages = async (req, res) => {
 };
 
 
-// ======================================
-// DELETE MESSAGE
-// ======================================
-
 const deleteMessage = async (req, res) => {
 
     try {
@@ -161,9 +149,6 @@ const deleteMessage = async (req, res) => {
 };
 
 
-// ======================================
-// MARK MESSAGE AS READ
-// ======================================
 
 const markAsRead = async (req, res) => {
 

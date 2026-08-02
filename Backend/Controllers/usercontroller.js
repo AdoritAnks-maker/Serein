@@ -1,10 +1,6 @@
 const User = require("../models/User");
 
-
-// =================================
-// GET LOGGED IN USER PROFILE
-// =================================
-
+// Log in using prfile
 const getProfile = async (req, res) => {
 
     try {
@@ -42,11 +38,7 @@ const getProfile = async (req, res) => {
 };
 
 
-
-// =================================
-// UPDATE PROFILE
-// =================================
-
+// update profile
 const updateProfile = async(req,res)=>{
 
     try{
@@ -91,10 +83,6 @@ const updateProfile = async(req,res)=>{
 
 
 
-// =================================
-// GET ALL USERS
-// =================================
-
 const getAllUsers = async(req,res)=>{
 
     try{
@@ -128,10 +116,6 @@ const getAllUsers = async(req,res)=>{
 };
 
 
-
-// =================================
-// GET USER BY ID
-// =================================
 
 const getUserById = async(req,res)=>{
 
