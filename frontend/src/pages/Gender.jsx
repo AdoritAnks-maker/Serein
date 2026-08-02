@@ -1,75 +1,129 @@
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Auth.css";
 
 
 function Gender(){
 
-
-const navigate=useNavigate();
-
-
-return(
-
-<div className="auth-page">
-
-
-<div className="auth-card">
-
-
-<h1>
-Choose Gender
-</h1>
-
-
-<p className="subtitle">
-Help us personalize your experience
-</p>
+    const navigate = useNavigate();
 
 
 
-<div className="option-box">
+    const selectGender = (gender)=>{
 
 
-<div 
-className="option"
-onClick={()=>navigate("/looking-for")}
->
-Male
-</div>
+        localStorage.setItem(
 
+            "gender",
 
-<div 
-className="option"
-onClick={()=>navigate("/looking-for")}
->
-Female
-</div>
+            gender
+
+        );
 
 
 
-<div 
-className="option"
-onClick={()=>navigate("/looking-for")}
->
-Other
-</div>
+        navigate("/looking-for");
+
+
+    };
 
 
 
-</div>
+
+
+    return(
+
+
+        <div className="auth-page">
+
+
+            <div className="auth-card">
+
+
+                <h1>
+                    Choose Gender
+                </h1>
 
 
 
-</div>
+                <p className="subtitle">
+                    Help us find better matches
+                </p>
 
 
-</div>
 
 
-)
+
+                <div className="option-box">
+
+
+
+
+
+                    <div
+
+                    className="option"
+
+                    onClick={()=>selectGender("Male")}
+
+                    >
+
+                        Male
+
+                    </div>
+
+
+
+
+
+
+                    <div
+
+                    className="option"
+
+                    onClick={()=>selectGender("Female")}
+
+                    >
+
+                        Female
+
+                    </div>
+
+
+
+
+
+
+                    <div
+
+                    className="option"
+
+                    onClick={()=>selectGender("Other")}
+
+                    >
+
+                        Other
+
+                    </div>
+
+
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+
+
+    );
 
 
 }
+
 
 
 export default Gender;

@@ -1,11 +1,13 @@
 require("dotenv").config();
 
+
 const dns = require("dns");
 
 dns.setServers([
     "8.8.8.8",
     "8.8.4.4"
 ]);
+
 
 
 const express = require("express");
@@ -15,6 +17,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 
 
+
 // Routes
 
 const authRoutes = require("./routes/authRoutes");
@@ -22,14 +25,22 @@ const matchRoutes = require("./routes/matchRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 
 
+// Models
 
-// App
+const Chat = require("./models/Chat");
+
+
+
+
 
 const app = express();
 
 
 
+
+
 // Middleware
+
 
 app.use(
 
@@ -58,6 +69,8 @@ app.use(express.json());
 
 
 
+
+
 // API Routes
 
 
@@ -67,18 +80,17 @@ authRoutes
 );
 
 
-
 app.use(
 "/api/match",
 matchRoutes
 );
 
 
-
 app.use(
 "/api/chat",
 chatRoutes
 );
+
 
 
 
@@ -94,19 +106,20 @@ mongoose
 
 .then(()=>{
 
-console.log("✅ Mongo Connected");
+    console.log("✅ Mongo Connected");
 
 })
 
 .catch((err)=>{
 
 
-console.log("❌ Mongo Connection Error");
+    console.log("❌ Mongo Connection Error");
 
-console.log(err.message);
+    console.log(err.message);
 
 
 });
+
 
 
 
@@ -121,9 +134,9 @@ console.log(err.message);
 app.get("/",(req,res)=>{
 
 
-res.send(
-"Backend Running Successfully"
-);
+    res.send(
+        "Backend Running Successfully"
+    );
 
 
 });
@@ -147,6 +160,8 @@ const server = http.createServer(app);
 
 
 
+
+
 // Socket.io
 
 
@@ -158,12 +173,12 @@ server,
 
 cors:{
 
-origin:"http://localhost:5173",
+    origin:"http://localhost:5173",
 
-methods:[
-"GET",
-"POST"
-]
+    methods:[
+        "GET",
+        "POST"
+    ]
 
 }
 
@@ -177,7 +192,12 @@ methods:[
 
 
 
+
+
 let onlineUsers = 0;
+
+
+
 
 
 
@@ -197,18 +217,31 @@ socket.id
 
 
 
+
+
 onlineUsers++;
 
 
+
+
 io.emit(
+
 "online_users",
+
 onlineUsers
+
 );
 
 
 
 
 
+
+
+
+
+
+// JOIN ROOM
 
 
 socket.on(
@@ -218,12 +251,15 @@ socket.on(
 (roomId)=>{
 
 
-socket.join(roomId);
+    socket.join(roomId);
 
 
-console.log(
-`User joined room ${roomId}`
-);
+
+    console.log(
+
+    `User joined room ${roomId}`
+
+    );
 
 
 }
@@ -234,31 +270,105 @@ console.log(
 
 
 
+
+
+
+
+
+
+// SEND MESSAGE
 
 
 socket.on(
 
 "send-message",
 
-(data)=>{
+async(data)=>{
 
 
-console.log(
-"Message:",
-data.text
-);
+    try{
 
 
 
-io.to(data.room)
+        console.log(
 
-.emit(
+            "Message:",
 
-"receive-message",
+            data.text
 
-data
+        );
 
-);
+
+
+
+
+        // Save message in MongoDB
+
+
+        await Chat.findByIdAndUpdate(
+
+            data.room,
+
+            {
+
+                $push:{
+
+                    messages:{
+
+
+                        sender:data.sender,
+
+
+                        text:data.text
+
+
+                    }
+
+                }
+
+            }
+
+        );
+
+
+
+
+
+
+
+
+        // Emit message to room
+
+
+        io.to(data.room)
+
+        .emit(
+
+            "receive-message",
+
+            data
+
+        );
+
+
+
+
+
+    }
+
+    catch(error){
+
+
+        console.log(
+
+            "Message Save Error:",
+
+            error
+
+        );
+
+
+    }
 
 
 
@@ -271,6 +381,12 @@ data
 
 
 
+
+
+
+
+
+// DISCONNECT
 
 
 socket.on(
@@ -280,20 +396,27 @@ socket.on(
 ()=>{
 
 
-console.log(
-"User Disconnected:",
-socket.id
-);
+    console.log(
+
+    "User Disconnected:",
+
+    socket.id
+
+    );
 
 
 
-onlineUsers--;
+    onlineUsers--;
 
 
-io.emit(
-"online_users",
-onlineUsers
-);
+
+    io.emit(
+
+    "online_users",
+
+    onlineUsers
+
+    );
 
 
 
@@ -304,9 +427,13 @@ onlineUsers
 
 
 
+
+
 }
 
 );
+
+
 
 
 
@@ -331,7 +458,9 @@ PORT,
 
 
 console.log(
+
 `🚀 Server running on ${PORT}`
+
 );
 
 

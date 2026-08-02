@@ -1,32 +1,95 @@
 const mongoose = require("mongoose");
 
-const matchSchema = new mongoose.Schema(
-  {
-    users: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-      },
+
+const matchRequestSchema = new mongoose.Schema({
+
+
+
+    userId:{
+
+        type:mongoose.Schema.Types.ObjectId,
+
+        ref:"User",
+
+        required:true
+
+    },
+
+
+
+    gender:{
+
+        type:String,
+
+        required:true
+
+    },
+
+
+
+    lookingFor:{
+
+        type:String,
+
+        required:true
+
+    },
+
+
+
+    vibes:[
+
+        {
+
+            type:String
+
+        }
+
     ],
 
-    conversation: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Conversation",
-      default: null,
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
 
-// A match must contain exactly two users
-matchSchema.path("users").validate(function (users) {
-  return users.length === 2;
-}, "A match must have exactly two users.");
+
+
+    status:{
+
+        type:String,
+
+        default:"waiting"
+
+    },
+
+
+
+
+
+    matchedUser:{
+
+        type:mongoose.Schema.Types.ObjectId,
+
+        ref:"User",
+
+        default:null
+
+    }
+
+
+
+
+
+},{
+
+    timestamps:true
+
+});
+
+
+
+
 
 module.exports = mongoose.model(
-  "Match",
-  matchSchema
+
+    "MatchRequest",
+
+    matchRequestSchema
+
 );

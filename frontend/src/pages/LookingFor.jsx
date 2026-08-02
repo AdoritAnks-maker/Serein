@@ -1,73 +1,130 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css";
 
-function LookingFor() {
+
+function LookingFor(){
+
 
     const navigate = useNavigate();
 
-    const [selected, setSelected] = useState("");
 
-    const handleSelect = (option) => {
 
-        setSelected(option);
+    const selectOption = (option)=>{
 
-        // Later:
-        // await api.put("/auth/profile", { lookingFor: option });
 
-        console.log("Looking For:", option);
+        localStorage.setItem(
 
-        setTimeout(() => {
-            navigate("/vibe");
-        }, 200);
+            "lookingFor",
+
+            option
+
+        );
+
+
+        navigate("/vibe");
+
 
     };
 
-    return (
+
+
+
+
+
+    return(
+
 
         <div className="auth-page">
 
+
             <div className="auth-card">
+
 
                 <h1>
                     Looking For
                 </h1>
 
+
+
                 <p className="subtitle">
-                    What brings you here today?
+
+                    Who do you want to connect with?
+
                 </p>
+
+
+
+
 
                 <div className="option-box">
 
-                    <div
-                        className={`option ${selected === "Friends" ? "selected" : ""}`}
-                        onClick={() => handleSelect("Friends")}
-                    >
-                        👥 Friends
-                    </div>
+
 
                     <div
-                        className={`option ${selected === "Study Partner" ? "selected" : ""}`}
-                        onClick={() => handleSelect("Study Partner")}
+
+                    className="option"
+
+                    onClick={()=>selectOption("Male")}
+
                     >
-                        📚 Study Partner
+
+                        👨 Male
+
                     </div>
 
+
+
+
+
+
                     <div
-                        className={`option ${selected === "Projects" ? "selected" : ""}`}
-                        onClick={() => handleSelect("Projects")}
+
+                    className="option"
+
+                    onClick={()=>selectOption("Female")}
+
                     >
-                        💻 Projects
+
+                        👩 Female
+
                     </div>
+
+
+
+
+
+
+                    <div
+
+                    className="option"
+
+                    onClick={()=>selectOption("Other")}
+
+                    >
+
+                        🌈 Other
+
+                    </div>
+
+
+
+
 
                 </div>
 
+
+
             </div>
+
 
         </div>
 
+
     );
 
+
+
 }
+
 
 export default LookingFor;

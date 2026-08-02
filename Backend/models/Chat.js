@@ -1,32 +1,98 @@
 const mongoose = require("mongoose");
 
-const conversationSchema = new mongoose.Schema(
-  {
-    participants: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-      },
-    ],
 
-    lastMessage: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Message",
-      default: null,
+
+const chatSchema = new mongoose.Schema(
+
+
+    {
+
+
+        users:[
+
+            {
+
+                type: mongoose.Schema.Types.ObjectId,
+
+                ref:"User"
+
+            }
+
+        ],
+
+
+
+
+
+        messages:[
+
+
+            {
+
+
+                sender:{
+
+
+                    type: mongoose.Schema.Types.ObjectId,
+
+                    ref:"User"
+
+
+                },
+
+
+
+                text:{
+
+
+                    type:String,
+
+                    required:true
+
+
+                },
+
+
+
+                createdAt:{
+
+
+                    type:Date,
+
+                    default:Date.now
+
+
+                }
+
+
+
+            }
+
+
+        ]
+
+
+
     },
-  },
-  {
-    timestamps: true,
-  }
+
+
+    {
+
+        timestamps:true
+
+    }
+
+
 );
 
-// A conversation should always contain exactly two users
-conversationSchema.path("participants").validate(function (participants) {
-  return participants.length === 2;
-}, "A conversation must have exactly two participants.");
+
+
+
 
 module.exports = mongoose.model(
-  "Conversation",
-  conversationSchema
+
+    "Chat",
+
+    chatSchema
+
 );

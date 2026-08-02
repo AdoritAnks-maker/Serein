@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import "./Auth.css";
 
 
 function Vibe(){
@@ -11,30 +12,85 @@ function Vibe(){
 
 
 
-    const add = (v)=>{
+    const options = [
+
+        "Coding",
+        "Music",
+        "Gaming",
+        "Movies"
+
+    ];
 
 
-        if(!vibes.includes(v))
-        {
 
-            setVibes([
-                ...vibes,
-                v
-            ]);
+
+
+    const toggleVibe = (vibe)=>{
+
+
+        if(vibes.includes(vibe)){
+
+
+            setVibes(
+
+                vibes.filter(
+                    item => item !== vibe
+                )
+
+            );
+
 
         }
 
+        else{
+
+
+            setVibes([
+
+                ...vibes,
+
+                vibe
+
+            ]);
+
+
+        }
+
+
     };
+
+
+
+
 
 
 
     const next = ()=>{
 
 
+        if(vibes.length===0){
+
+            alert(
+                "Please select at least one vibe"
+            );
+
+            return;
+
+        }
+
+
+
+
+
         localStorage.setItem(
+
             "vibes",
+
             JSON.stringify(vibes)
+
         );
+
+
 
 
         navigate("/matching");
@@ -44,45 +100,136 @@ function Vibe(){
 
 
 
+
+
+
+
     return(
 
-        <div>
 
-            <h2>
-                Select Your Vibe
-            </h2>
+        <div className="auth-page">
 
 
-            <button onClick={()=>add("coding")}>
-                Coding
-            </button>
-
-
-            <button onClick={()=>add("music")}>
-                Music
-            </button>
-
-
-            <button onClick={()=>add("gaming")}>
-                Gaming
-            </button>
-
-
-            <button onClick={()=>add("movies")}>
-                Movies
-            </button>
+            <div className="auth-card">
 
 
 
-            <br/><br/>
+                <h1>
+                    Select Your Vibes
+                </h1>
 
 
-            <button onClick={next}>
-                Find Match
-            </button>
+
+                <p className="subtitle">
+
+                    Select one or more vibes
+
+                </p>
+
+
+
+
+
+                <div className="option-box">
+
+
+
+                {
+
+                options.map(
+
+                    (vibe)=>(
+
+
+                        <div
+
+                        key={vibe}
+
+
+                        className={
+
+                            vibes.includes(vibe)
+
+                            ?
+
+                            "option selected"
+
+                            :
+
+                            "option"
+
+                        }
+
+
+                        onClick={()=>toggleVibe(vibe)}
+
+
+                        >
+
+                            {vibe}
+
+
+                        </div>
+
+
+
+                    )
+
+                )
+
+
+                }
+
+
+                </div>
+
+
+
+
+
+
+
+                <p>
+
+                    Selected:
+
+                    {" "}
+
+                    {
+                    vibes.length>0
+                    ?
+                    vibes.join(", ")
+                    :
+                    "None"
+                    }
+
+                </p>
+
+
+
+
+
+
+
+
+                <button
+
+                onClick={next}
+
+                >
+
+                    Find Match
+
+                </button>
+
+
+
+
+            </div>
 
 
         </div>
+
 
     );
 

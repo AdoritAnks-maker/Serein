@@ -1,38 +1,83 @@
 const Chat = require("../models/Chat");
 
 
-const getChat = async (req, res) => {
 
-    try {
+// GET CHAT DETAILS
 
-        const chat = await Chat.findById(
-            req.params.id
-        );
+const getChat = async(req,res)=>{
 
 
-        if (!chat) {
+    try{
+
+
+        const chatId = req.params.id;
+
+
+
+
+        const chat = await Chat.findById(chatId);
+
+
+
+
+
+        if(!chat){
+
 
             return res.status(404).json({
-                message: "Chat not found"
+
+                message:"Chat not found"
+
             });
+
 
         }
 
 
-        res.json(chat);
 
 
-    } catch (error) {
 
-        res.status(500).json({
-            error: error.message
+
+        res.status(200).json({
+
+            users:chat.users,
+
+            messages:chat.messages
+
+
         });
 
+
+
+
+
+
+
     }
+
+    catch(error){
+
+
+        res.status(500).json({
+
+            message:error.message
+
+        });
+
+
+
+    }
+
+
 
 };
 
 
+
+
+
 module.exports = {
+
     getChat
+
 };

@@ -15,80 +15,90 @@ import Chat from "./pages/Chat";
 
 
 
-function App(){
+function App() {
+
+    return (
+
+        <Routes>
 
 
-return(
+            {/* Default Page */}
 
-<Routes>
-
-
-{/* Default Page */}
-
-<Route
-path="/"
-element={
-<Navigate to="/signup"/>
-}
-/>
+            <Route
+                path="/"
+                element={<Navigate to="/signup" />}
+            />
 
 
+            {/* Authentication */}
 
-{/* Authentication */}
-
-<Route
-path="/signup"
-element={<Signup/>}
-/>
+            <Route
+                path="/signup"
+                element={<Signup />}
+            />
 
 
-<Route
-path="/login"
-element={<Login/>}
-/>
+            <Route
+                path="/login"
+                element={<Login />}
+            />
 
 
 
-{/* User Setup */}
+            {/* User Setup */}
 
-<Route
-path="/gender"
-element={<Gender/>}
-/>
-
-
-<Route
-path="/looking-for"
-element={<LookingFor/>}
-/>
+            <Route
+                path="/gender"
+                element={<Gender />}
+            />
 
 
-<Route
-path="/vibe"
-element={<Vibe/>}
-/>
+            <Route
+                path="/looking-for"
+                element={<LookingFor />}
+            />
 
 
-
-{/* Main App */}
-
-<Route
-path="/matching"
-element={<Matching/>}
-/>
-
-
-<Route
-path="/chat/:id"
-element={<Chat/>}
-/>
+            <Route
+                path="/vibe"
+                element={<Vibe />}
+            />
 
 
 
-</Routes>
+            {/* Main App */}
 
-);
+            <Route
+                path="/matching"
+                element={<Matching />}
+            />
 
+
+            {/* Chat Routes */}
+
+            <Route
+                path="/chat"
+                element={<Chat />}
+            />
+
+
+            <Route
+                path="/chat/:id"
+                element={<Chat />}
+            />
+
+
+            {/* Unknown Route */}
+
+            <Route
+                path="*"
+                element={<Navigate to="/signup" />}
+            />
+
+
+        </Routes>
+
+    );
 
 }
 
