@@ -1,4 +1,4 @@
-const Match = require("../models/MatchRequest");
+const Match = require("../models/Match");
 
 
 const getMatches = async (req, res) => {

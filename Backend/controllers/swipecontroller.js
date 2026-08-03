@@ -1,6 +1,6 @@
 const Swipe = require("../models/Swipe");
-const Match = require("../models/MatchRequest");
-const Conversation = require("../models/");
+const Match = require("../models/Match");
+const Conversation = require("../models/Conversation");
 
 
 const swipeUser = async (req, res) => {
@@ -44,7 +44,7 @@ const swipeUser = async (req, res) => {
 
             {
                 upsert: true,
-                returnDocument: "after"
+                new: true
             }
 
         );
@@ -89,7 +89,7 @@ const swipeUser = async (req, res) => {
 
         if (!match) {
 
-      
+            // Create conversation
             const conversation =
                 await Conversation.create({
 
