@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import "./Auth.css";
 
 
@@ -49,13 +49,7 @@ function Login(){
         try{
 
 
-            const res = await axios.post(
-
-                "http://localhost:5000/api/auth/login",
-
-                form
-
-            );
+            const res = await api.post("/auth/login", form);
 
 
 
@@ -147,7 +141,7 @@ function Login(){
 
                 <h1>
 
-                    Welcome Back
+                    Welcome back
 
                 </h1>
 
@@ -157,7 +151,7 @@ function Login(){
 
                 <p className="subtitle">
 
-                    Login to your college community
+                    Pick up where the good conversations left off.
 
                 </p>
 
@@ -245,7 +239,7 @@ function Login(){
 
                 >
 
-                    Login
+                    Continue to Serein
 
                 </button>
 
@@ -260,7 +254,7 @@ function Login(){
                 <p className="subtitle">
 
 
-                    Don't have account?
+                    New here?
 
 
 
@@ -283,7 +277,7 @@ function Login(){
 
                     >
 
-                    Signup
+                    Create an account
 
                     </span>
 

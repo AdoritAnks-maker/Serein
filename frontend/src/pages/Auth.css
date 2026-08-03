@@ -1,588 +1,128 @@
-/* ================================
-   GLOBAL AUTH PAGE
-================================ */
-
-
-.auth-page{
-
-    min-height:100vh;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-
-    background:
-
-    radial-gradient(
-        circle at top,
-        #2a2a2a 0%,
-        transparent 35%
-    ),
-
-    linear-gradient(
-        135deg,
-        #050505,
-        #0b0b0b,
-        #151515
-    );
-
-
-    font-family:
-
-    "Inter",
-    "Segoe UI",
-    Arial,
-    sans-serif;
-
-
-    color:white;
-
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: #f8f7fa;
+  background:
+    radial-gradient(circle at 50% 22%, rgba(82, 83, 228, 0.13), transparent 28rem),
+    linear-gradient(135deg, #0d0d10 0%, #111116 52%, #0d0d10 100%);
 }
 
-
-
-/* ================================
-        CARD
-================================ */
-
-
-.auth-card{
-
-
-    width:420px;
-
-
-    padding:45px;
-
-
-    border-radius:28px;
-
-
-    background:
-
-    rgba(255,255,255,0.06);
-
-
-
-    backdrop-filter:
-
-    blur(25px);
-
-
-
-    border:
-
-    1px solid rgba(255,255,255,0.12);
-
-
-
-    box-shadow:
-
-
-    0 30px 80px rgba(0,0,0,0.85);
-
-
-
-    animation:
-
-    fadeIn 0.5s ease;
-
-
-
+.auth-card {
+  width: min(100%, 430px);
+  padding: 38px;
+  border: 1px solid #25252c;
+  border-radius: 24px;
+  background: rgba(20, 20, 25, 0.82);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
 }
 
+.vibe-card { width: min(100%, 560px); }
+.matching-card { max-width: 390px; text-align: center; }
+.match-orb { width: 44px; height: 44px; display: inline-grid; margin: 0 auto 18px; border-radius: 50%; background: #1a1b3a; box-shadow: 0 0 0 10px rgba(98, 100, 220, 0.06); }
+.match-orb::after { width: 10px; height: 10px; place-self: center; border-radius: 50%; background: #7275f2; box-shadow: 0 0 18px rgba(114, 117, 242, 0.9); content: ""; }
 
-
-
-/* CARD ANIMATION */
-
-
-@keyframes fadeIn{
-
-
-from{
-
-opacity:0;
-
-transform:translateY(20px);
-
+.auth-card h1 {
+  margin: 0 0 9px;
+  color: #f8f7fa;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.8px;
 }
 
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
+.subtitle {
+  margin: 0 0 28px;
+  color: #9c9ca6;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.55;
 }
-
-
-}
-
-
-
-
-/* ================================
-          HEADING
-================================ */
-
-
-
-.auth-card h1{
-
-
-    text-align:center;
-
-
-    font-size:34px;
-
-
-    font-weight:700;
-
-
-    letter-spacing:-1px;
-
-
-    margin-bottom:12px;
-
-
-
-    background:
-
-    linear-gradient(
-        90deg,
-        #ffffff,
-        #a1a1aa
-    );
-
-
-    -webkit-background-clip:text;
-
-
-    color:transparent;
-
-
-
-}
-
-
-
-/* ================================
-          SUBTITLE
-================================ */
-
-
-.subtitle{
-
-
-    text-align:center;
-
-
-    color:#888888;
-
-
-    font-size:15px;
-
-
-    margin-bottom:32px;
-
-
-    letter-spacing:0.3px;
-
-
-}
-
-
-
-
-/* ================================
-          INPUTS
-================================ */
-
-
 
 .auth-card input,
 .auth-card textarea,
-.auth-card select{
-
-
-    width:100%;
-
-
-    padding:16px;
-
-
-    margin-bottom:18px;
-
-
-
-    background:
-
-
-    rgba(255,255,255,0.07);
-
-
-
-    border:
-
-
-    1px solid rgba(255,255,255,0.12);
-
-
-
-    border-radius:16px;
-
-
-
-    color:white;
-
-
-
-    outline:none;
-
-
-
-    font-size:15px;
-
-
-
-    transition:
-
-    0.3s ease;
-
-
-
+.auth-card select {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 14px 15px;
+  border: 1px solid #2b2b33;
+  border-radius: 12px;
+  outline: none;
+  background: #18181e;
+  color: #f8f7fa;
+  font-size: 14px;
+  transition: border-color 160ms ease, background 160ms ease;
 }
-
-
 
 .auth-card input::placeholder,
-.auth-card textarea::placeholder{
-
-
-    color:#777;
-
-
-}
-
-
-
+.auth-card textarea::placeholder { color: #74747e; }
 
 .auth-card input:focus,
-.auth-card textarea:focus{
+.auth-card textarea:focus { border-color: #6768db; background: #1b1b22; }
 
+.auth-card textarea { min-height: 108px; resize: vertical; }
 
-    border-color:#aaaaaa;
-
-
-    background:
-
-    rgba(255,255,255,0.1);
-
-
-
-    transform:
-
-    translateY(-2px);
-
-
-
+.auth-card button {
+  width: 100%;
+  margin-top: 5px;
+  padding: 14px 16px;
+  border: 1px solid #595bd3;
+  border-radius: 12px;
+  background: #6264dc;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 160ms ease, background 160ms ease;
 }
 
+.auth-card button:hover { background: #7274eb; transform: translateY(-1px); }
 
+.auth-link { margin-top: 21px; color: #8e8e98; text-align: center; font-size: 14px; }
+.auth-link span { margin-left: 6px; color: #c6c7ff; cursor: pointer; font-weight: 600; }
+.auth-link span:hover { color: #fff; }
 
+.option-box { display: grid; gap: 10px; }
 
-.auth-card textarea{
-
-
-    height:110px;
-
-
-    resize:none;
-
-
+.option {
+  padding: 15px 18px;
+  border: 1px solid #2b2b33;
+  border-radius: 12px;
+  background: #18181e;
+  color: #e9e8ec;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
 }
 
+.option:hover { border-color: #4b4c5a; background: #1d1d24; transform: translateY(-1px); }
+.option.selected { border-color: #6668df; background: rgba(98, 100, 220, 0.14); color: #fff; }
 
-
-
-/* ================================
-          BUTTON
-================================ */
-
-
-
-.auth-card button{
-
-
-    width:100%;
-
-
-
-    padding:16px;
-
-
-
-    margin-top:5px;
-
-
-
-    border:none;
-
-
-
-    border-radius:16px;
-
-
-
-    cursor:pointer;
-
-
-
-    font-size:16px;
-
-
-
-    font-weight:600;
-
-
-
-    color:#000;
-
-
-
-    background:
-
-
-    linear-gradient(
-
-    135deg,
-
-    #ffffff,
-
-    #bdbdbd
-
-    );
-
-
-
-    transition:
-
-    0.3s ease;
-
-
-
+.vibe-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
 }
 
-
-
-
-
-.auth-card button:hover{
-
-
-    transform:
-
-    translateY(-3px);
-
-
-
-    box-shadow:
-
-
-    0 15px 35px rgba(255,255,255,0.15);
-
-
-
+.auth-card .vibe-option {
+  min-width: 0;
+  margin: 0;
+  padding: 11px 8px;
+  border: 1px solid #2b2b33;
+  border-radius: 10px;
+  background: #18181e;
+  color: #b6b6c0;
+  font-size: 13px;
+  font-weight: 500;
 }
 
-
-
-/* ================================
-          LINKS
-================================ */
-
-
-.auth-link{
-
-
-    margin-top:25px;
-
-
-    text-align:center;
-
-
-    color:#888;
-
-
-
-    font-size:14px;
-
-
-
-}
-
-
-
-.auth-link span{
-
-
-    color:#ffffff;
-
-
-    margin-left:6px;
-
-
-    cursor:pointer;
-
-
-    font-weight:600;
-
-
-
-}
-
-
-
-
-.auth-link span:hover{
-
-
-    text-decoration:underline;
-
-
-}
-
-
-
-
-
-/* ================================
-          OPTIONS
-================================ */
-
-
-.option-box{
-
-
-    display:flex;
-
-
-    flex-direction:column;
-
-
-    gap:15px;
-
-
-}
-
-
-
-
-.option{
-
-
-    padding:18px;
-
-
-
-    border-radius:18px;
-
-
-
-    background:
-
-
-    rgba(255,255,255,0.07);
-
-
-
-    border:
-
-
-    1px solid rgba(255,255,255,0.12);
-
-
-
-    color:white;
-
-
-
-    text-align:center;
-
-
-
-    cursor:pointer;
-
-
-
-    transition:
-
-    0.3s ease;
-
-
-
-}
-
-
-
-
-
-.option:hover{
-
-
-    background:
-
-
-    rgba(255,255,255,0.15);
-
-
-
-    transform:
-
-    translateY(-4px);
-
-
-
-    border-color:#777;
-
-
-
-}
-
-
-
-/* ================================
-          RESPONSIVE
-================================ */
-
-
-@media(max-width:500px){
-
-
-.auth-card{
-
-
-width:90%;
-
-
-padding:30px;
-
-
-}
-
-
-.auth-card h1{
-
-
-font-size:28px;
-
-
-}
-
-
+.auth-card .vibe-option:hover { border-color: #4b4c5a; background: #1d1d24; transform: none; }
+.auth-card .vibe-option.selected { border-color: #6668df; background: rgba(98, 100, 220, 0.18); color: #fff; }
+.selection-count { min-height: 22px; margin: 16px 0 0; color: #92929d; text-align: center; font-size: 13px; }
+
+@media (max-width: 520px) {
+  .auth-page { padding: 16px; }
+  .auth-card { padding: 28px 22px; border-radius: 20px; }
+  .vibe-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }

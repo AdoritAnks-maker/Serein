@@ -164,7 +164,7 @@ const markAsRead = async (req, res) => {
                 },
 
                 {
-                    new: true
+                    returnDocument: "after"
                 }
 
             );

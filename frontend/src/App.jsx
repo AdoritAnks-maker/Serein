@@ -5,13 +5,13 @@ import {
 } from "react-router-dom";
 
 
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
+import Signup from "./pages/signup";
+import Login from "./pages/login";
 import Gender from "./pages/Gender";
 import LookingFor from "./pages/LookingFor";
 import Vibe from "./pages/Vibe";
 import Matching from "./pages/Matching";
-import Chat from "./pages/Chat";
+import Chat from "./pages/chat";
 
 
 

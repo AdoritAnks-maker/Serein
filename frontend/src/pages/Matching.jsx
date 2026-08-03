@@ -1,348 +1,73 @@
-import {
-    useEffect,
-    useRef,
-    useState
-} from "react";
-
-
-import {
-    useNavigate
-} from "react-router-dom";
-
-
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
-
-
-
-function Matching(){
-
-
-    const navigate = useNavigate();
-
-
-    const [status,setStatus] = useState(
-        "Finding Match..."
-    );
-
-
-    const [loading,setLoading] = useState(false);
-
-
-
-    const intervalRef = useRef(null);
-
-
-
-
-
-
-    const findMatch = async()=>{
-
-
-        if(loading)
-            return;
-
-
-
-        try{
-
-
-            setLoading(true);
-
-
-
-            const userId = localStorage.getItem(
-                "userId"
-            );
-
-
-            const gender = localStorage.getItem(
-                "gender"
-            );
-
-
-            const lookingFor = localStorage.getItem(
-                "lookingFor"
-            );
-
-
-            const vibes = JSON.parse(
-
-                localStorage.getItem("vibes") || "[]"
-
-            );
-
-
-
-
-
-
-            console.log(
-                "SENDING MATCH DATA:",
-                {
-                    userId,
-                    gender,
-                    lookingFor,
-                    vibes
-                }
-            );
-
-
-
-
-
-
-
-            const res = await api.post(
-
-                "/match/find",
-
-                {
-
-                    userId,
-                    gender,
-                    lookingFor,
-                    vibes
-
-                }
-
-            );
-
-
-
-
-
-
-
-            console.log(
-                "MATCH RESPONSE:",
-                res.data
-            );
-
-
-
-
-
-
-
-            if(res.data.matched){
-
-
-                setStatus(
-                    "Match Found 🎉"
-                );
-
-
-
-                // stop checking
-
-                if(intervalRef.current){
-
-                    clearInterval(
-                        intervalRef.current
-                    );
-
-                }
-
-
-
-
-
-
-                setTimeout(()=>{
-
-
-                    navigate(
-
-                        "/chat/" + res.data.chatId
-
-                    );
-
-
-                },500);
-
-
-
-
-            }
-
-            else{
-
-
-                setStatus(
-
-                    "Waiting for someone..."
-
-                );
-
-
-            }
-
-
-
-
-
-
+import "./Auth.css";
+
+function Matching() {
+  const navigate = useNavigate();
+  const intervalRef = useRef(null);
+  const inFlightRef = useRef(false);
+  const requestIdRef = useRef(null);
+  const [status, setStatus] = useState("Finding your people...");
+
+  useEffect(() => {
+    let active = true;
+
+    const findMatch = async () => {
+      if (inFlightRef.current || !active) return;
+      inFlightRef.current = true;
+
+      try {
+        const response = await api.post("/match/find", {
+          userId: localStorage.getItem("userId"),
+          gender: localStorage.getItem("gender"),
+          lookingFor: localStorage.getItem("lookingFor"),
+          vibes: JSON.parse(localStorage.getItem("vibes") || "[]"),
+          requestId: requestIdRef.current,
+        });
+
+        if (!active) return;
+        if (response.data.matched) {
+          setStatus("A good match is ready");
+          clearInterval(intervalRef.current);
+          window.setTimeout(() => navigate(`/chat/${response.data.chatId}`), 500);
+        } else {
+          requestIdRef.current = response.data.requestId;
+          setStatus("Still looking...");
         }
-        catch(error){
-
-
-            console.log(
-                "MATCH ERROR:",
-                error
-            );
-
-
-            setStatus(
-                "Error finding match"
-            );
-
-
-        }
-        finally{
-
-
-            setLoading(false);
-
-
-        }
-
-
-
+      } catch (error) {
+        if (active) setStatus("We could not find a match right now");
+        console.log("MATCH ERROR:", error);
+      } finally {
+        inFlightRef.current = false;
+      }
     };
 
-
-
-
-
-
-
-
-
-    useEffect(()=>{
-
-
-
-        // first search
-
-        findMatch();
-
-
-
-
-
-        // check every 3 seconds
-
-        intervalRef.current = setInterval(()=>{
-
-
-            findMatch();
-
-
-        },3000);
-
-
-
-
-
-
-
-        return()=>{
-
-
-            if(intervalRef.current){
-
-                clearInterval(
-                    intervalRef.current
-                );
-
-            }
-
-
-        };
-
-
-
-    },[]);
-
-
-
-
-
-
-
-
-
-
-
-    return(
-
-
-        <div className="auth-page">
-
-
-            <div className="auth-card">
-
-
-
-                <h1>
-
-                    {status}
-
-                </h1>
-
-
-
-
-
-
-                {
-                    status === "Waiting for someone..." &&
-
-
-                    <p className="subtitle">
-
-                        Searching for your vibe partner...
-
-                    </p>
-
-
-                }
-
-
-
-
-
-                {
-                    status === "Finding Match..." &&
-
-
-                    <p className="subtitle">
-
-                        Please wait...
-
-                    </p>
-
-
-                }
-
-
-
-
-
-
-            </div>
-
-
-        </div>
-
-
-    );
-
-
-
+    findMatch();
+    intervalRef.current = window.setInterval(findMatch, 3000);
+    return () => {
+      active = false;
+      clearInterval(intervalRef.current);
+    };
+  }, [navigate]);
+
+  const description = status === "Still looking..."
+    ? "We are looking for someone with your kind of energy."
+    : status === "A good match is ready"
+      ? "Opening your conversation now."
+      : status === "Finding your people..."
+        ? "Getting everything ready."
+        : "Please try again in a moment.";
+
+  return (
+    <div className="auth-page">
+      <div className="auth-card matching-card">
+        <span className="match-orb" aria-hidden="true" />
+        <h1>{status}</h1>
+        <p className="subtitle">{description}</p>
+      </div>
+    </div>
+  );
 }
-
-
 
 export default Matching;

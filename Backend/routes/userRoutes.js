@@ -9,7 +9,7 @@ const {
     updateProfile,
     getAllUsers,
     getUserById
-} = require("../controllers/userController");
+} = require("../controllers/usercontroller");
 
 
 router.get(

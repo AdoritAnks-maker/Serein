@@ -9,7 +9,7 @@ const {
     getMessages,
     deleteMessage,
     markAsRead
-} = require("../controllers/messageController");
+} = require("../controllers/messagecontroller");
 
 router.post("/", authMiddleware, sendMessage);
 

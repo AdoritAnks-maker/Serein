@@ -78,7 +78,7 @@ function Signup(){
 
                 "userId",
 
-                res.data.user.id
+                res.data.userId || res.data.user?.id
 
             );
 
@@ -133,13 +133,13 @@ function Signup(){
 
 
                 <h1>
-                    Create Account
+                    Join Serein
                 </h1>
 
 
 
                 <p className="subtitle">
-                    Join your college vibe community
+                    Meet people who make campus feel more like yours.
                 </p>
 
 
@@ -208,7 +208,7 @@ function Signup(){
                     ?
                     "Creating..."
                     :
-                    "Create Account"
+                    "Create your space"
                     }
 
                 </button>
@@ -221,7 +221,7 @@ function Signup(){
                 <div className="auth-link">
 
 
-                    Already have an account?
+                    Already part of Serein?
 
 
                     <span
@@ -230,7 +230,7 @@ function Signup(){
 
                     >
 
-                    Login
+                    Sign in
 
                     </span>
 

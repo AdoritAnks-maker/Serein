@@ -8,7 +8,7 @@ const {
     swipeUser,
     getMySwipes,
     deleteSwipe
-} = require("../controllers/swipeController");
+} = require("../controllers/swipecontroller");
 
 router.post("/", authMiddleware, swipeUser);
 

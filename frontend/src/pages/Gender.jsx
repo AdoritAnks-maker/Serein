@@ -40,13 +40,13 @@ function Gender(){
 
 
                 <h1>
-                    Choose Gender
+                    A little about you
                 </h1>
 
 
 
                 <p className="subtitle">
-                    Help us find better matches
+                    This helps us introduce you to the right people.
                 </p>
 
 
