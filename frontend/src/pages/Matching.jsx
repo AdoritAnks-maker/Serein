@@ -13,17 +13,34 @@ function Matching() {
   useEffect(() => {
     let active = true;
 
+    const getLocation = () => new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error("Location is not supported by this browser."));
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        ({ coords }) => resolve({ latitude: coords.latitude, longitude: coords.longitude }),
+        () => reject(new Error("Location permission is needed to find people near you.")),
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
+      );
+    });
+
     const findMatch = async () => {
       if (inFlightRef.current || !active) return;
       inFlightRef.current = true;
 
       try {
+        const location = await getLocation();
+        if (!active) return;
+
         const response = await api.post("/match/find", {
           userId: localStorage.getItem("userId"),
           gender: localStorage.getItem("gender"),
           lookingFor: localStorage.getItem("lookingFor"),
           vibes: JSON.parse(localStorage.getItem("vibes") || "[]"),
           requestId: requestIdRef.current,
+          location,
         });
 
         if (!active) return;
@@ -36,7 +53,11 @@ function Matching() {
           setStatus("Still looking...");
         }
       } catch (error) {
-        if (active) setStatus("We could not find a match right now");
+        if (active) {
+          setStatus(error.message === "Location permission is needed to find people near you."
+            ? "Allow location to find people nearby"
+            : "We could not find a match right now");
+        }
         console.log("MATCH ERROR:", error);
       } finally {
         inFlightRef.current = false;
@@ -55,14 +76,16 @@ function Matching() {
     ? "We are looking for someone with your kind of energy."
     : status === "A good match is ready"
       ? "Opening your conversation now."
-      : status === "Finding your people..."
+    : status === "Finding your people..."
         ? "Getting everything ready."
+        : status === "Allow location to find people nearby"
+          ? "Turn on location access. We only match people within 10 km."
         : "Please try again in a moment.";
 
   return (
     <div className="auth-page">
       <div className="auth-card matching-card">
-        <span className="match-orb" aria-hidden="true" />
+        <span className="match-orb" aria-hidden="true"><span /></span>
         <h1>{status}</h1>
         <p className="subtitle">{description}</p>
       </div>

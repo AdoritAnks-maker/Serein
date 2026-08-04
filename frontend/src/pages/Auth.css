@@ -20,8 +20,15 @@
 
 .vibe-card { width: min(100%, 560px); }
 .matching-card { max-width: 390px; text-align: center; }
-.match-orb { width: 44px; height: 44px; display: inline-grid; margin: 0 auto 18px; border-radius: 50%; background: #1a1b3a; box-shadow: 0 0 0 10px rgba(98, 100, 220, 0.06); }
-.match-orb::after { width: 10px; height: 10px; place-self: center; border-radius: 50%; background: #7275f2; box-shadow: 0 0 18px rgba(114, 117, 242, 0.9); content: ""; }
+.match-orb { position: relative; width: 112px; height: 112px; display: grid; place-items: center; margin: 4px auto 26px; border-radius: 50%; background: radial-gradient(circle, rgba(114, 117, 242, 0.24), rgba(35, 36, 78, 0.24) 48%, transparent 49%); }
+.match-orb::before, .match-orb::after { position: absolute; inset: 0; border: 1px solid rgba(114, 117, 242, 0.42); border-radius: 50%; content: ""; animation: search-ring 2.2s ease-out infinite; }
+.match-orb::after { animation-delay: 1.1s; }
+.match-orb span { width: 16px; height: 16px; z-index: 1; border-radius: 50%; background: #7275f2; box-shadow: 0 0 22px rgba(114, 117, 242, 0.95); }
+
+@keyframes search-ring {
+  from { transform: scale(0.45); opacity: 0.9; }
+  to { transform: scale(1.35); opacity: 0; }
+}
 
 .auth-card h1 {
   margin: 0 0 9px;
