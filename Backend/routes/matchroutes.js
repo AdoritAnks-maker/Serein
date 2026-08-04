@@ -16,16 +16,23 @@ const getOrCreateChat = async (userId, matchedUserId) => {
 
 router.post("/find", async (req, res) => {
   try {
-    const { userId, gender, lookingFor, requestId } = req.body;
+    const { userId, gender, lookingFor, requestId, location } = req.body;
     const vibes = Array.isArray(req.body.vibes)
       ? [...new Set(req.body.vibes.map((vibe) => String(vibe).trim()).filter(Boolean))]
       : [];
 
-    if (!mongoose.isValidObjectId(userId) || !gender || !lookingFor || vibes.length === 0) {
+    const latitude = Number(location?.latitude);
+    const longitude = Number(location?.longitude);
+    const hasValidLocation = Number.isFinite(latitude) && Number.isFinite(longitude)
+      && latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180;
+
+    if (!mongoose.isValidObjectId(userId) || !gender || !lookingFor || vibes.length === 0 || !hasValidLocation) {
       return res.status(400).json({
-        message: "Complete your profile and choose at least one interest before matching.",
+        message: "Complete your profile, choose an interest, and allow location access before matching.",
       });
     }
+
+    const userLocation = { type: "Point", coordinates: [longitude, latitude] };
 
     // Resume only the match request from this search session. Older matches
     // must not prevent a user from starting a new compatible conversation.
@@ -56,8 +63,12 @@ router.post("/find", async (req, res) => {
         gender: String(gender).trim(),
         lookingFor: String(lookingFor).trim(),
         vibes,
+        location: userLocation,
         status: "waiting",
       });
+    } else {
+      current.location = userLocation;
+      await current.save();
     }
 
     // Atomically claim the oldest compatible waiting request. This prevents
@@ -69,6 +80,12 @@ router.post("/find", async (req, res) => {
         gender: current.lookingFor,
         lookingFor: current.gender,
         vibes: { $in: vibes },
+        location: {
+          $near: {
+            $geometry: userLocation,
+            $maxDistance: 10000,
+          },
+        },
         status: "waiting",
       },
       {
@@ -79,7 +96,6 @@ router.post("/find", async (req, res) => {
       },
       {
         returnDocument: "after",
-        sort: { createdAt: 1 },
       }
     );
 
